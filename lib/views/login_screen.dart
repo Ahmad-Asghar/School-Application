@@ -4,7 +4,7 @@ import 'package:firebase_project_2/views/signup_screen.dart';
 import 'package:firebase_project_2/widgets/round_button.dart';
 import 'package:flutter/material.dart';
 
-import '../posts/posts.dart';
+import '../firestore/usernames.dart';
 import '../utility/utils.dart';
 
 class login_screen extends StatefulWidget {
@@ -26,7 +26,7 @@ final _formkey=GlobalKey<FormState>();
     _auth.signInWithEmailAndPassword(email: emailcontroller.text.toString(), password: passwordcontroller.text.toString()).then((value)
     {
       Utils().toastmessege("Successfully Loged In",Colors.orange[300]!);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>post_screen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>usernames()));
     }).onError((error, stackTrace) {
 
 Utils().toastmessege(error.toString(),Colors.orange[300]!);

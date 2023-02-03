@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_project_2/firestore/firestorescreen.dart';
 import 'package:firebase_project_2/firestore/viewfirestoredata.dart';
 import 'package:flutter/material.dart';
 
 import '../utility/utils.dart';
+import '../views/login_screen.dart';
 class usernames extends StatefulWidget {
   const usernames({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class usernames extends StatefulWidget {
 class _usernamesState extends State<usernames> {
   @override
 TextEditingController editcontroller=TextEditingController();
+  final auth=FirebaseAuth.instance;
   final fireStore1=FirebaseFirestore.instance.collection('Names of Classes').snapshots();
   final fireStore=FirebaseFirestore.instance.collection('Names of Classes');
   CollectionReference firestore_ref=FirebaseFirestore.instance.collection('Names of Classes');
@@ -87,12 +90,34 @@ TextEditingController editcontroller=TextEditingController();
 
       ),
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+
+            auth.signOut().then((value) {
+
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
+            }).onError((error, stackTrace) {
+              Utils().toastmessege(error.toString(), Colors.red[300]!);
+            });
+          },
+            icon: Icon( Icons.logout),)
+        ],
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.red[200],
         title: Text("Classes"),
       ),
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.red,
+              Colors.blue,
+            ],
+          ),
+        ),
         height: double.infinity,
         width: double.infinity,
         child: StreamBuilder<QuerySnapshot>(
@@ -160,7 +185,6 @@ TextEditingController editcontroller=TextEditingController();
                             ),
 
                             title: Text(snapshot.data!.docs[index]['title'].toString()),
-
 
                           ),
                         ),

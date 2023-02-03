@@ -5,12 +5,12 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_project_2/firestore/add_firestore_data.dart';
 import 'package:firebase_project_2/firestore/usernames.dart';
 import 'package:firebase_project_2/firestore/viewfirestoredata.dart';
-import 'package:firebase_project_2/posts/add_posts.dart';
 import 'package:firebase_project_2/utility/utils.dart';
 import 'package:firebase_project_2/views/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
-
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 class Firestorescreen extends StatefulWidget {
   final String classs;
   const Firestorescreen({Key? key, required this.classs,}) : super(key: key);
@@ -23,7 +23,7 @@ class _FirestorescreenState extends State<Firestorescreen> {
   final editcontroller =TextEditingController();
   final auth=FirebaseAuth.instance;
   //final fireStore=FirebaseFirestore.instance.collection(widget.classs).snapshots();
-    CollectionReference firestore_ref=FirebaseFirestore.instance.collection('Users');
+   // CollectionReference firestore_ref=FirebaseFirestore.instance.collection('Users');
 
 
 
@@ -53,10 +53,8 @@ class _FirestorescreenState extends State<Firestorescreen> {
                   }, child: Text("Cancel")),
               TextButton(
                   onPressed: (){
-
                     FirebaseFirestore.instance.collection(widget.classs).doc(id).update({
-
-'title':editcontroller.text
+'name':editcontroller.text
 
 }).then((value) {
   Utils().toastmessege('Updated', Colors.green.shade200);
@@ -94,23 +92,21 @@ class _FirestorescreenState extends State<Firestorescreen> {
         ),
         appBar: AppBar(
 
-          actions: [
-            IconButton(onPressed: (){
-
-              auth.signOut().then((value) {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>login_screen()));
-              }).onError((error, stackTrace) {
-                Utils().toastmessege(error.toString(), Colors.red[300]!);
-              });
-            },
-              icon: Icon( Icons.logout),)
-          ],
           backgroundColor: Colors.red[300],
           title: Text(widget.classs),
           centerTitle: true,
         ),
         body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.red,
+                Colors.blue,
+              ],
+            ),
+          ),
           height: double.infinity,
           width: double.infinity,
           child: StreamBuilder<QuerySnapshot>(
@@ -118,6 +114,7 @@ class _FirestorescreenState extends State<Firestorescreen> {
               builder: (BuildContext context,AsyncSnapshot<QuerySnapshot>snapshot){
 if (snapshot.connectionState==ConnectionState.waiting){
   print('called');
+
 
   return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -137,20 +134,26 @@ if(snapshot.hasError){
                 child: ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context,index){
+
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           color: Colors.red[100],
                           child: ListTile(
 onTap: (){
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>viewfirestoredata(name: snapshot.data!.docs[index]['name'].toString(), fathername: snapshot.data!.docs[index]['fathername'].toString(), dateofbirth: snapshot.data!.docs[index]['date_of_birth'].toString(),phonenumber: snapshot.data!.docs[index]['phone_no'].toString(), )));
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>viewfirestoredata(name: snapshot.data!.docs[index]['name'].toString(), fathername: snapshot.data!.docs[index]['fathername'].toString(), dateofbirth: snapshot.data!.docs[index]['date_of_birth'].toString(),phonenumber: snapshot.data!.docs[index]['phone_no'].toString(), imageUrl: snapshot.data!.docs[index]['imgUrl'].toString(), )));
 }
                             ,
+                            leading: snapshot.data!.docs[index]['imgUrl'].toString()==""? CircleAvatar(
+                              child: Icon(Icons.question_mark),
+                            ):CircleAvatar(
+backgroundImage: CachedNetworkImageProvider(
+    snapshot.data!.docs[index]['imgUrl'].toString()),
+                            ),
                             trailing: PopupMenuButton(
                               icon: Icon(Icons.more_vert),
                               itemBuilder: ( context) =>[
                                 PopupMenuItem(
-
                                   value: 1, child: ListTile(
                                   onTap: (){
                                     Navigator.pop(context);
@@ -166,8 +169,9 @@ onTap: (){
                                   onTap: (){
                                    // ref.child(list[index]['id']).remove();
 
+                                    FirebaseFirestore.instance.collection(widget.classs).doc(snapshot.data!.docs[index]['id'].toString()).delete();
+                                    print(snapshot.data!.docs[index]['id'].toString());
                                     Navigator.pop(context);
-                                    firestore_ref.doc(snapshot.data!.docs[index]['id'].toString()).delete();
                                   },
                                   leading: Icon(Icons.delete),
                                   title: Text("Delete"),
@@ -178,7 +182,7 @@ onTap: (){
                             ),
 
                             title: Text(snapshot.data!.docs[index]['name'].toString()),
-                            subtitle: Text(snapshot.data!.docs[index]['fathername'].toString()),
+                            subtitle: Text(snapshot.data!.docs[index]['date_of_birth'].toString()),
 
                           ),
                         ),

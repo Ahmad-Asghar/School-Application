@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 class viewfirestoredata extends StatefulWidget {
-
+final String imageUrl;
       final String name;
       final String fathername;
       final String phonenumber;
       final String dateofbirth;
    viewfirestoredata(
       {Key? key,
+        required this.imageUrl,
         required this.name,
         required this.fathername,
         required this.dateofbirth,
@@ -22,51 +25,120 @@ class _viewfirestoredataState extends State<viewfirestoredata> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red[200],
+          centerTitle: true,
+          backgroundColor: Colors.red[300],
           title: Text("Student Data"),
         ),
         body: Container(
+
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [
+        Colors.red,
+        Colors.blue,
+        ],
+        ),
+        ),
           height: double.infinity,
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
-                   Text("Name :"+ widget.name,
-                   style: TextStyle(
-                     fontSize: 20,
-                     fontWeight: FontWeight.bold
-                   ),
-                   ),
-                   Text("Father's Name :"+widget.fathername,
-                     style: TextStyle(
-                         fontSize: 20,
-                         fontWeight: FontWeight.bold
-                     ),
-                   ),
-                   SizedBox(height: 10,),
-                   Text("Phone No :"+widget.phonenumber,
-                     style: TextStyle(
-                         fontSize: 20,
-                         fontWeight: FontWeight.bold
-                     ),
-                   ),
-                   SizedBox(height: 10,),
-                   Text("DOB: "+widget.dateofbirth,
-                     style: TextStyle(
-                         fontSize: 20,
-                         fontWeight: FontWeight.bold
-                     ),
-                   ),
+              SizedBox(height: 25),
+              widget.imageUrl==""? CircleAvatar(
+                radius: 80,
+                child: Icon(Icons.question_mark,
 
-                 ],
+                size: 80,),
+              ):CircleAvatar(
+                radius: 80,
+                backgroundImage: CachedNetworkImageProvider(
+                    widget.imageUrl),
+              ),
+              SizedBox(height: 35),
+              
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Name :  "+ widget.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                        child: Icon(Icons.edit))
+                  ],
                 ),
-              )
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Father's Name :  "+ widget.fathername,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(Icons.edit))
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Phone no :  "+ widget.phonenumber,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(Icons.edit))
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Date of Birth :  "+ widget.dateofbirth,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(Icons.edit))
+                  ],
+                ),
+              ),
 
 
             ],
