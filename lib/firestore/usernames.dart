@@ -15,6 +15,7 @@ class usernames extends StatefulWidget {
 
 class _usernamesState extends State<usernames> {
   @override
+
 TextEditingController editcontroller=TextEditingController();
   final auth=FirebaseAuth.instance;
   final fireStore1=FirebaseFirestore.instance.collection('Names of Classes').snapshots();
