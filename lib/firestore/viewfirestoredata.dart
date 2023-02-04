@@ -3,12 +3,16 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 class viewfirestoredata extends StatefulWidget {
 final String imageUrl;
+final String registration_no;
+final String serial_no;
       final String name;
       final String fathername;
       final String phonenumber;
       final String dateofbirth;
    viewfirestoredata(
       {Key? key,
+        required this.registration_no,
+        required this.serial_no,
         required this.imageUrl,
         required this.name,
         required this.fathername,
@@ -59,7 +63,48 @@ class _viewfirestoredataState extends State<viewfirestoredata> {
                     widget.imageUrl),
               ),
               SizedBox(height: 35),
-              
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Serial No :  "+ widget.serial_no,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(Icons.edit))
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding:  EdgeInsets.only(left: 30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text("Registration No :  "+ widget.registration_no,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Icon(Icons.edit)),
+
+
+                  ],
+                ),
+              ),
+              SizedBox(height: 35),
               Padding(
                 padding:  EdgeInsets.only(left: 30),
                 child: Row(
@@ -135,10 +180,14 @@ class _viewfirestoredataState extends State<viewfirestoredata> {
                     ),
                     Expanded(
                         flex: 1,
-                        child: Icon(Icons.edit))
+                        child: Icon(Icons.edit)),
+
+
                   ],
                 ),
               ),
+
+
 
 
             ],

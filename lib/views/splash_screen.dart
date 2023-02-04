@@ -38,13 +38,29 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          color: Colors.orange[50],
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.red,
+                Colors.blue,
+              ],
+            ),
+          ),
           child: Center(
-            child: Image(image: AssetImage("images/firebase.png"),
+            // child: Expanded(
+            //   child: Text("Al Badar Model Girls High School ",
+            //   style: TextStyle(
+            //
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 40
+            //   ),
+            //   ),
+            // ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

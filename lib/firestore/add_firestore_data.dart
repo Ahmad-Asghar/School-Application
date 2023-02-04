@@ -16,7 +16,10 @@ import '../utility/utils.dart';
 
 class add_firestoredata extends StatefulWidget {
   final String Addinclass;
-  const add_firestoredata({Key? key,required this.Addinclass}) : super(key: key);
+
+  const add_firestoredata({Key? key,
+    required this.Addinclass,
+  }) : super(key: key);
 
   @override
   State<add_firestoredata> createState() => _add_firestoredataState();
@@ -99,6 +102,8 @@ class _add_firestoredataState extends State<add_firestoredata> {
   final fathernamecontroller =TextEditingController();
   final dobcontroller =TextEditingController();
   final phone_no_controller =TextEditingController();
+  final serialnocontroller=TextEditingController();
+  final regnocontroller=TextEditingController();
 
 
 // final fireStore=FirebaseFirestore.instance.collection('Users');
@@ -180,6 +185,45 @@ borderRadius: BorderRadius.circular(20,)
                   ),
                 ),
               ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+
+                        controller: serialnocontroller,
+                        decoration:InputDecoration(
+                          prefixIcon:Icon( Icons.numbers),
+                          hintText: "Serial No",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20,)
+                          ),
+
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextFormField(
+
+                        controller: regnocontroller,
+                        decoration:InputDecoration(
+                          prefixIcon:Icon( Icons.numbers),
+                          hintText: "Reg no",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20,)
+                          ),
+
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
@@ -248,6 +292,8 @@ setState(() {
                     var newUrl= await storageref.getDownloadURL();
 
                     fireStore.doc(id).set({
+                      'RegNo':regnocontroller.text.toString(),
+                      'serialno':serialnocontroller.text.toString(),
                       'id'    :id,
                       'name' :namecontroller.text.toString(),
                       'fathername' :fathernamecontroller.text.toString(),

@@ -141,7 +141,16 @@ if(snapshot.hasError){
                           color: Colors.red[100],
                           child: ListTile(
 onTap: (){
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>viewfirestoredata(name: snapshot.data!.docs[index]['name'].toString(), fathername: snapshot.data!.docs[index]['fathername'].toString(), dateofbirth: snapshot.data!.docs[index]['date_of_birth'].toString(),phonenumber: snapshot.data!.docs[index]['phone_no'].toString(), imageUrl: snapshot.data!.docs[index]['imgUrl'].toString(), )));
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>viewfirestoredata(
+    name: snapshot.data!.docs[index]['name'].toString(),
+    fathername: snapshot.data!.docs[index]['fathername'].toString(),
+    dateofbirth: snapshot.data!.docs[index]['date_of_birth'].toString(),
+    phonenumber: snapshot.data!.docs[index]['phone_no'].toString(),
+    imageUrl: snapshot.data!.docs[index]['imgUrl'].toString(),
+    registration_no: snapshot.data!.docs[index]['RegNo'].toString(),
+    serial_no:snapshot.data!.docs[index]['serialno'].toString() ,
+
+  )));
 }
                             ,
                             leading: snapshot.data!.docs[index]['imgUrl'].toString()==""? CircleAvatar(
